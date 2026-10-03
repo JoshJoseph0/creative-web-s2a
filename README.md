@@ -8,61 +8,42 @@ S2a Checkpoint for Creative Web. Project concept and Svelte student pet list.
 
 ## Project Concept
 
-### Working title
+### AI User Creator
 
-*Add your current project title here.*
+My current idea is to create a visual web application that lets users configure and test the behaviour of an existing language model. The project would not train a new AI model. Instead, users would change instructions, behaviours and settings, then test how those changes affect the AI's responses.
 
-### Overview
+I want the experience to feel more creative and approachable than existing AI workflow tools. Rather than relying completely on a traditional node editor, I am exploring a system based around large visual building blocks and possibly an AI character that the user creates.
 
-*Briefly explain what the creative web application is and what the user will do.*
+The user could then test their AI in different simulated situations, such as a tutoring environment, a messaging conversation or another everyday scenario. The main interaction would follow a simple loop:
 
-### Purpose
+**Build → Test → Observe → Change → Re-run**
 
-*What problem, idea or area are you exploring? What do you want the user to understand or experience?*
+The intended audience is people who are interested in AI but may find current tools too technical. I want to use simple language, visual explanations and an interface that encourages experimentation.
 
-### Intended audience
+Some of my main inspirations so far are **Langflow**, **Flowise**, **Promptfoo**, **Scratch** and **ComfyUI**. These have helped me think about visual building systems, testing AI behaviour and how technical tools could be made easier to understand.
 
-*Who is the application for?*
+The application could eventually include user accounts, saved AI configurations, persistent results, shareable links and a public area for viewing other users' creations.
 
-### Core interaction
-
-*Describe the main interaction or loop in the project.*
-
-### Key features
-
-- *Feature / idea 1*
-- *Feature / idea 2*
-- *Feature / idea 3*
-- *Feature / idea 4*
-
-### Inspiration and existing alternatives
-
-*Mention relevant tools, websites, interfaces or projects you have researched, and briefly explain what you learned from them.*
-
-### Data and technical direction
-
-*Briefly describe what data the app may need to save and any early technical ideas.*
-
-### Design direction
-
-*Describe the look, feel and UX direction you are currently exploring.*
-
-### What I still need to explore
-
-- *Question / uncertainty 1*
-- *Question / uncertainty 2*
-- *Question / uncertainty 3*
+The main areas I still need to explore are what the user should learn from each experiment, how the results should be explained, and what will make the experience meaningfully different from existing AI-building tools.
 
 ---
 
 ## Svelte Project — Student Pet List
 
-The Svelte exercise for this checkpoint will be contained in its own project folder.
+The second part of this checkpoint is a small Svelte application that connects students with pets.
 
-### Required Svelte features
+### Required features
 
 - [ ] Component composition
 - [ ] `bind:value`
 - [ ] Shared state using a `.svelte.js` module
 - [ ] `{#each}`
 - [ ] `{#if}`
+
+### Planned structure
+
+- `App.svelte`
+- `StudentForm.svelte`
+- `StudentList.svelte`
+- `roster.svelte.js`
+- `classless.css`
