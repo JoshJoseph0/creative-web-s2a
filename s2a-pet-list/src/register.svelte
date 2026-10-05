@@ -1,5 +1,36 @@
 <script>
 	import { roster } from './roster.svelte.js'
+
+	function downloadRegister() {
+		const columns = ['Owner', 'Dog', 'Breed', 'Check-in status']
+		const rows = roster.entries.map((entry) => [
+			entry.name,
+			entry.pet,
+			entry.breed,
+			entry.checkedIn ? 'Checked in' : 'Not checked in'
+		])
+		const csv = [columns, ...rows]
+			.map((row) =>
+				row
+					.map((value) => {
+						const text = String(value ?? '')
+						const safeText = /^[\t\r\n ]*[=+\-@]/.test(text) ? `'${text}` : text
+						return `"${safeText.replaceAll('"', '""')}"`
+					})
+					.join(',')
+			)
+			.join('\r\n')
+		const blob = new Blob(['\uFEFF', csv], { type: 'application/pdf;' })
+		const url = URL.createObjectURL(blob)
+		const link = document.createElement('a')
+
+		link.href = url
+		link.download = 'dog-check-in-register.pdf'
+		document.body.append(link)
+		link.click()
+		link.remove()
+		setTimeout(() => URL.revokeObjectURL(url), 0)
+	}
 </script>
 
 <section class="register" aria-live="polite">
@@ -20,16 +51,49 @@
 						<span>{entry.checkedIn ? 'Checked in' : 'Check in'}</span>
 					</label>
 				</li>
+				
 			{/each}
 		</ul>
 	{/if}
+</section>
+<section>
+	<button type="button" onclick={downloadRegister} disabled={roster.entries.length === 0}>
+		Download Register
+	</button>
 </section>
 
 <style>
 	.register {
 		margin-top: 0;
 	}
+	button {
+		display: flex;
+		min-height: 50px;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+		margin-top: 14px;
+		padding: 8px 18px;
+		border: 0;
+		border-radius: 10px;
+		background: #ee8295;
+		color: #fff;
+		font: inherit;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background 150ms ease, transform 150ms ease;
+	}
 
+	button:hover {
+		background: #dc6c83;
+		transform: translateY(-1px);
+	}
+
+	button:disabled {
+		background: #c9bec2;
+		cursor: not-allowed;
+		transform: none;
+	}
 	h2,
 	p {
 		margin: 0;

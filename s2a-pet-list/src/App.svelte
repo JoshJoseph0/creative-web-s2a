@@ -29,6 +29,7 @@
 		<section class="panel register-panel" aria-label="Dog check-in register">
 			<Register />
 		</section>
+		
 	</section>
 </main>
 
