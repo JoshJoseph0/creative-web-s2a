@@ -10,7 +10,7 @@
 	{:else}
 		<ul>
 			{#each roster.entries as entry (entry.id)}
-				<li><strong>{entry.name}</strong><span>{entry.pet}</span></li>
+				<li><strong>{entry.name}</strong><span>{entry.pet} ({entry.breed})</span></li>
 			{/each}
 		</ul>
 	{/if}

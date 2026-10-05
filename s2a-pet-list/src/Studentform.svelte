@@ -4,25 +4,31 @@
 	// These values only hold what is currently being typed into the form.
 	let name = $state('')
 	let pet = $state('')
+	let breed = $state('')
 
 	function addEntry(event) {
 		event.preventDefault()
 
 		const personName = name.trim()
 		const petName = pet.trim()
+		const petBreed = breed.trim()
 
-		if (!personName || !petName) return
+		if (!personName || !petName || !petBreed) return
 
 		// Add directly to the roster shared with RosterList.svelte.
-		roster.entries.push({ id: crypto.randomUUID(), name: personName, pet: petName })
+		roster.entries.push({ id: crypto.randomUUID(), name: personName, pet: petName, breed: petBreed })
 		name = ''
 		pet = ''
+		breed = ''
 	}
 </script>
 
 <form onsubmit={addEntry}>
 	<label for="person-name">Your name</label>
 	<input id="person-name" bind:value={name} autocomplete="name" required />
+
+	<label for="pet-breed">Your pet's breed</label>
+	<input id="pet-breed" bind:value={breed} required />
 
 	<label for="pet-name">Your pet's name</label>
 	<input id="pet-name" bind:value={pet} required />
