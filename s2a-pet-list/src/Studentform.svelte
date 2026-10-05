@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte'
 	import { roster } from './roster.svelte.js'
 
-	// These values only hold what is currently being typed into the form.
 	let name = $state('')
 	let pet = $state('')
 	let breed = $state('')
@@ -68,8 +67,13 @@
 
 		if (!personName || !petName || !petBreed) return
 
-		// Add directly to the roster shared with RosterList.svelte.
-		roster.entries.push({ id: crypto.randomUUID(), name: personName, pet: petName, breed: petBreed })
+		roster.entries.push({
+			id: crypto.randomUUID(),
+			name: personName,
+			pet: petName,
+			breed: petBreed,
+			checkedIn: false
+		})
 		name = ''
 		pet = ''
 		breed = ''

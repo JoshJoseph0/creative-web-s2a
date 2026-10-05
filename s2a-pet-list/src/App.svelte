@@ -1,15 +1,15 @@
 <script>
 	import StudentForm from './Studentform.svelte'
 	import RosterList from './RosterList.svelte'
+	import Register from './register.svelte'
 </script>
 
 <main class="page">
 	<section class="content" aria-labelledby="page-title">
 		<header class="page-header">
-		
-			
 			<div>
-				
+				<h1 id="page-title">Pet Registration</h1>
+				<p class="intro">Add dogs to the register and check them in for doggie day care.</p>
 			</div>
 		</header>
 
@@ -25,6 +25,10 @@
 				<RosterList />
 			</section>
 		</div>
+
+		<section class="panel register-panel" aria-label="Dog check-in register">
+			<Register />
+		</section>
 	</section>
 </main>
 
@@ -38,6 +42,15 @@
 			#fff7f5;
 		color: #29252b;
 		font: 16px/1.5 'Segoe UI', sans-serif;
+	}
+
+	#page-title {
+		margin-bottom: 32px;
+		margin-top: 32px;
+	}	
+
+	.panel.output-panel {
+		margin-top: 2px;
 	}
 
 	.content {
@@ -56,20 +69,6 @@
 		margin-bottom: 32px;
 	}
 
-	.mark {
-		display: grid;
-		width: 54px;
-		height: 54px;
-		flex: 0 0 auto;
-		place-items: center;
-		border-radius: 18px;
-		background: #f58b9a;
-		color: #fff;
-		font-size: 27px;
-		font-weight: 700;
-	}
-
-	.eyebrow,
 	.section-label {
 		color: #c25e78;
 		font-size: 11px;
@@ -117,8 +116,20 @@
 
 	.output-panel {
 		min-height: 270px;
-		border-left: 1px solid #f1e5e7;
 		background: #fffafb;
+		border-left: 1px solid #f1e5e7;
+	}
+
+	.form-panel {
+		border-right: 0;
+	}
+
+	.register-panel {
+		margin-top: 24px;
+		border: 1px solid #f1e5e7;
+		border-radius: 24px;
+		background: #fffafb;
+		box-shadow: 0 22px 60px rgb(111 65 76 / 10%);
 	}
 
 	@media (max-width: 720px) {
@@ -126,12 +137,12 @@
 			padding: 40px 18px;
 		}
 
-		.roster-card {
-			grid-template-columns: 1fr;
-		}
-
 		.panel {
 			padding: 30px 24px;
+		}
+
+		.roster-card {
+			grid-template-columns: 1fr;
 		}
 
 		.output-panel {

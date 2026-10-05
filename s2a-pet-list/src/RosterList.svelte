@@ -11,11 +11,8 @@
 		<ul>
 			{#each roster.entries as entry (entry.id)}
 				<li>
-					<div class="entry-details">
-						<strong>{entry.pet}</strong>
-						<span>Added by {entry.name}</span>
-					</div>
-					<span class="breed">{entry.breed}</span>
+					<strong>{entry.name}</strong>
+					<span>{entry.pet} · {entry.breed}</span>
 				</li>
 			{/each}
 		</ul>
@@ -24,7 +21,7 @@
 
 <style>
 	.entries {
-		margin-top: 0;
+		margin-top: 40px;
 	}
 
 	h2,
@@ -35,72 +32,30 @@
 	h2 {
 		display: flex;
 		align-items: baseline;
-		gap: 10px;
-		font-size: 22px;
-		letter-spacing: -0.03em;
+		gap: 8px;
+		font-size: 18px;
 	}
 
 	h2 span,
 	.empty {
-		color: #8a7e87;
-	}
-
-	h2 span {
-		display: grid;
-		min-width: 26px;
-		height: 26px;
-		place-items: center;
-		padding: 0 6px;
-		border-radius: 999px;
-		background: #fce8eb;
-		color: #ba5b72;
-		font-size: 13px;
-		font-weight: 600;
+		color: #657066;
 	}
 
 	ul {
-		margin: 20px 0 0;
+		margin: 12px 0 0;
 		padding: 0;
 		list-style: none;
 	}
 
 	li {
 		display: flex;
-		align-items: center;
 		justify-content: space-between;
-		gap: 12px;
-		padding: 16px 0;
-		border-bottom: 1px solid #f0e8eb;
-	}
-
-	.entry-details {
-		display: grid;
-		gap: 2px;
-		min-width: 0;
-	}
-
-	.entry-details strong {
-		overflow-wrap: anywhere;
-		font-size: 15px;
-	}
-
-	.entry-details span {
-		color: #8a7e87;
-		font-size: 13px;
-	}
-
-	.breed {
-		max-width: 45%;
-		padding: 5px 10px;
-		border-radius: 999px;
-		background: #fce8eb;
-		color: #a54f66;
-		font-size: 12px;
-		text-align: center;
+		gap: 16px;
+		padding: 12px 0;
+		border-bottom: 1px solid #dce3da;
 	}
 
 	.empty {
-		margin-top: 18px;
-		font-size: 14px;
+		margin-top: 12px;
 	}
 </style>
