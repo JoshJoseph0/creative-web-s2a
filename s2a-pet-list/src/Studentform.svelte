@@ -1,10 +1,9 @@
 <script>
 	import { onMount } from 'svelte'
-	import { roster } from './roster.svelte.js'
+	import { breedInfo, roster } from './roster.svelte.js'
 
 	let name = $state('')
 	let pet = $state('')
-	let breed = $state('')
 	let breeds = $state([])
 	let breedsLoading = $state(true)
 	let breedError = $state('')
@@ -12,7 +11,7 @@
 	onMount(async () => {
 		try {
 			let nextUrl = 'https://dogapi.dog/api/v2/breeds?page[size]=100&page[number]=1'
-			const breedNames = []
+			const breedDetails = []
 			const visitedPages = new Set()
 			let expectedPage = 1
 
@@ -34,10 +33,10 @@
 					throw new Error('Dog API returned an invalid breed page')
 				}
 
-				breedNames.push(
+				breedDetails.push(
 					...data.data
-						.map((item) => item.attributes?.name)
-						.filter((breedName) => typeof breedName === 'string')
+						.map((item) => item.attributes)
+						.filter((attributes) => typeof attributes?.name === 'string')
 				)
 
 				const next = data.links?.next
@@ -47,7 +46,10 @@
 				expectedPage += 1
 			}
 
-			breeds = [...new Set(breedNames)].sort((a, b) => a.localeCompare(b))
+			breedInfo.breeds = [
+				...new Map(breedDetails.map((details) => [details.name, details])).values()
+			].sort((a, b) => a.name.localeCompare(b.name))
+			breeds = breedInfo.breeds.map((details) => details.name)
 			if (breeds.length === 0) throw new Error('Dog API returned no breeds')
 		} catch (error) {
 			console.error('Failed to load dog breeds:', error)
@@ -63,7 +65,7 @@
 
 		const personName = name.trim()
 		const petName = pet.trim()
-		const petBreed = breed.trim()
+		const petBreed = breedInfo.selectedBreed.trim()
 
 		if (!personName || !petName || !petBreed) return
 
@@ -76,13 +78,13 @@
 		})
 		name = ''
 		pet = ''
-		breed = ''
+		breedInfo.selectedBreed = ''
 	}
 </script>
 
 <form onsubmit={addEntry}>
 	<label for="pet-breed">Your dog's breed</label>
-	<select id="pet-breed" bind:value={breed} required disabled={breedsLoading || breeds.length === 0}>
+	<select id="pet-breed" bind:value={breedInfo.selectedBreed} required disabled={breedsLoading || breeds.length === 0}>
 		<option value="" disabled>
 			{breedsLoading ? 'Loading breeds…' : 'Select a breed'}
 		</option>

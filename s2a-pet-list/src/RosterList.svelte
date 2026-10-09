@@ -1,23 +1,10 @@
 <script>
 	import { roster } from './roster.svelte.js'
 </script>
+	<section>
+		<h1>Dog breed information</h1>
+	</section>
 
-<section class="entries" aria-labelledby="entries-title" aria-live="polite">
-	<h2 id="entries-title">Entries <span>{roster.entries.length}</span></h2>
-	{#if roster.entries.length === 0}
-		<!-- Explain the empty list until the first student is added. -->
-		<p class="empty">No entries yet.</p>
-	{:else}
-		<ul>
-			{#each roster.entries as entry (entry.id)}
-				<li>
-					<strong>{entry.name}</strong>
-					<span>{entry.pet} · {entry.breed}</span>
-				</li>
-			{/each}
-		</ul>
-	{/if}
-</section>
 
 <style>
 	.entries {

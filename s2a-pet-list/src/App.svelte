@@ -1,6 +1,6 @@
 <script>
 	import StudentForm from './Studentform.svelte'
-	import RosterList from './RosterList.svelte'
+	import BreedInfo from './BreedInfo.svelte'
 	import Register from './register.svelte'
 </script>
 
@@ -21,8 +21,8 @@
 				<StudentForm />
 			</section>
 
-			<section class="panel output-panel" aria-label="Pet roster entries">
-				<RosterList />
+			<section class="panel output-panel" aria-label="Dog breed information">
+				<BreedInfo />
 			</section>
 		</div>
 
