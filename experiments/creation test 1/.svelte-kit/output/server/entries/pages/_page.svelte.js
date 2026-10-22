@@ -1,7 +1,8 @@
 import { L as source, N as increment, S as effect_tracking, T as render_effect, U as queue_micro_task, V as without_reactive_context, bt as noop, c as setContext, d as active_effect, et as safe_not_equal, f as active_reaction, g as untrack, h as set_active_reaction, ht as EFFECT_TRANSPARENT, m as set_active_effect, mt as EFFECT_PRESERVED, n as derived, o as spread_props, p as get$1, r as head, s as getContext, t as bind_props, u as subscribe_to_store, yt as define_property } from "../../chunks/server.js";
 import "../../chunks/index-server.js";
 import * as THREE from "three";
-import { REVISION } from "three";
+import { REVISION, SphereGeometry } from "three";
+import FastNoiseLite from "fastnoise-lite";
 // node_modules/svelte/src/store/shared/index.js
 /** @import { Readable, StartStopNotifier, Subscriber, Unsubscriber, Updater, Writable } from '../public.js' */
 /** @import { Stores, StoresValues, SubscribeInvalidateTuple } from '../private.js' */
@@ -1063,74 +1064,91 @@ var observePre = (dependencies, callback) => {
 };
 Object.assign(observePost, { pre: observePre });
 REVISION.replace("dev", "");
-// src/routes/+page.svelte
-function _page($$renderer, $$props) {
+// src/lib/planetGeometry.js
+function createPlanetGeometry({ radius, segments, mountainHeight = 0, valleyDepth = 0, noiseSeed = 1337, noiseFrequency = 2 }) {
+	const geometry = new SphereGeometry(radius, segments, segments);
+	const positions = geometry.attributes.position;
+	const noise = new FastNoiseLite(noiseSeed);
+	noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
+	noise.SetFrequency(noiseFrequency);
+	const height = Math.max(0, mountainHeight);
+	const depth = Math.min(Math.max(0, valleyDepth), radius * .95);
+	for (let index = 0; index < positions.count; index++) {
+		const x = positions.getX(index);
+		const y = positions.getY(index);
+		const z = positions.getZ(index);
+		const length = Math.hypot(x, y, z);
+		if (length === 0) continue;
+		const value = Math.max(-1, Math.min(1, noise.GetNoise(x / length, y / length, z / length)));
+		const scale = (radius + value * (value >= 0 ? height : depth)) / length;
+		positions.setXYZ(index, x * scale, y * scale, z * scale);
+	}
+	positions.needsUpdate = true;
+	geometry.computeVertexNormals();
+	geometry.computeBoundingSphere();
+	geometry.computeBoundingBox();
+	return geometry;
+}
+// src/lib/Planet.svelte
+function Planet($$renderer, $$props) {
 	$$renderer.component(($$renderer) => {
-		let planet;
+		let { config } = $$props;
+		let mesh = void 0;
+		let geometry = derived(() => createPlanetGeometry(config));
 		useTask((delta) => {
-			if (planet) planet.rotation.y += delta * .22;
+			if (mesh && config.visible) mesh.rotation.y += delta * config.rotationSpeed;
 		});
 		let $$settled = true;
 		let $$inner_renderer;
 		function $$render_inner($$renderer) {
-			head("1uha8ag", $$renderer, ($$renderer) => {
-				$$renderer.title(($$renderer) => {
-					$$renderer.push(`<title>Creation Test 1 — Threlte Playground</title>`);
-				});
-				$$renderer.push(`<meta name="description" content="A SvelteKit and Threlte playground for creating 3D scenes with Three.js."/>`);
-			});
-			$$renderer.push(`<main><section class="intro"><p class="eyebrow">EXPERIMENT 01 · 3D PLAYGROUND</p> <h1>Creation Test 1</h1> <p class="description">A first look at building a little world with SvelteKit, Threlte and Three.js.</p></section> <section class="scene" aria-label="A rotating 3D planet">`);
-			Canvas($$renderer, {
-				children: ($$renderer) => {
-					T.PerspectiveCamera($$renderer, {
-						makeDefault: true,
-						position: [
-							0,
-							0,
-							4.5
-						]
-					});
-					$$renderer.push(`<!----> `);
-					T.AmbientLight($$renderer, { intensity: .8 });
-					$$renderer.push(`<!----> `);
-					T.PointLight($$renderer, {
-						position: [
-							3,
-							3,
-							4
-						],
-						intensity: 22
-					});
-					$$renderer.push(`<!----> `);
-					T.Mesh($$renderer, {
-						get ref() {
-							return planet;
-						},
-						set ref($$value) {
-							planet = $$value;
-							$$settled = false;
-						},
-						children: ($$renderer) => {
-							T.SphereGeometry($$renderer, { args: [
-								1.15,
-								48,
-								48
-							] });
-							$$renderer.push(`<!----> `);
-							T.MeshStandardMaterial($$renderer, {
-								color: "#76b7ff",
-								roughness: .42,
-								metalness: .12
+			if (T.Group) {
+				$$renderer.push("<!--[-->");
+				T.Group($$renderer, {
+					position: config.position,
+					"rotation.z": config.tilt,
+					visible: config.visible,
+					children: ($$renderer) => {
+						if (T.Mesh) {
+							$$renderer.push("<!--[-->");
+							T.Mesh($$renderer, {
+								name: config.name,
+								geometry: geometry(),
+								get ref() {
+									return mesh;
+								},
+								set ref($$value) {
+									mesh = $$value;
+									$$settled = false;
+								},
+								children: ($$renderer) => {
+									if (T.MeshStandardMaterial) {
+										$$renderer.push("<!--[-->");
+										T.MeshStandardMaterial($$renderer, {
+											color: config.color,
+											roughness: config.roughness,
+											metalness: config.metalness
+										});
+										$$renderer.push("<!--]-->");
+									} else {
+										$$renderer.push("<!--[!-->");
+										$$renderer.push("<!--]-->");
+									}
+								},
+								$$slots: { default: true }
 							});
-							$$renderer.push(`<!---->`);
-						},
-						$$slots: { default: true }
-					});
-					$$renderer.push(`<!---->`);
-				},
-				$$slots: { default: true }
-			});
-			$$renderer.push(`<!----> <p class="scene-caption">A small rotating planet, rendered in real time</p></section> <footer><span>Made with SvelteKit</span> <span>Three.js · Threlte</span></footer></main>`);
+							$$renderer.push("<!--]-->");
+						} else {
+							$$renderer.push("<!--[!-->");
+							$$renderer.push("<!--]-->");
+						}
+					},
+					$$slots: { default: true }
+				});
+				$$renderer.push("<!--]-->");
+			} else {
+				$$renderer.push("<!--[!-->");
+				$$renderer.push("<!--]-->");
+			}
 		}
 		do {
 			$$settled = true;
@@ -1139,6 +1157,98 @@ function _page($$renderer, $$props) {
 		} while (!$$settled);
 		$$renderer.subsume($$inner_renderer);
 	});
+}
+// src/lib/planets.svelte.js
+var planets = [{
+	id: "planet-1",
+	name: "Planet 1",
+	position: [
+		0,
+		0,
+		0
+	],
+	radius: 1.15,
+	mountainHeight: .18,
+	valleyDepth: .1,
+	noiseSeed: 1337,
+	noiseFrequency: 2,
+	segments: 8,
+	color: "#18314f",
+	roughness: 4.42,
+	metalness: .12,
+	rotationSpeed: .22,
+	tilt: 0,
+	visible: true
+}];
+// src/lib/PlanetScene.svelte
+function PlanetScene($$renderer, $$props) {
+	$$renderer.component(($$renderer) => {
+		let activePlanet = derived(() => planets.find((planet) => planet.id === "planet-1"));
+		if (T.PerspectiveCamera) {
+			$$renderer.push("<!--[-->");
+			T.PerspectiveCamera($$renderer, {
+				makeDefault: true,
+				position: [
+					0,
+					0,
+					4.5
+				]
+			});
+			$$renderer.push("<!--]-->");
+		} else {
+			$$renderer.push("<!--[!-->");
+			$$renderer.push("<!--]-->");
+		}
+		$$renderer.push(` `);
+		if (T.AmbientLight) {
+			$$renderer.push("<!--[-->");
+			T.AmbientLight($$renderer, { intensity: .8 });
+			$$renderer.push("<!--]-->");
+		} else {
+			$$renderer.push("<!--[!-->");
+			$$renderer.push("<!--]-->");
+		}
+		$$renderer.push(` `);
+		if (T.PointLight) {
+			$$renderer.push("<!--[-->");
+			T.PointLight($$renderer, {
+				position: [
+					3,
+					3,
+					4
+				],
+				intensity: 22
+			});
+			$$renderer.push("<!--]-->");
+		} else {
+			$$renderer.push("<!--[!-->");
+			$$renderer.push("<!--]-->");
+		}
+		$$renderer.push(` `);
+		if (activePlanet()) {
+			$$renderer.push(`<!--[0--><!---->`);
+			Planet($$renderer, { config: activePlanet() });
+			$$renderer.push(`<!---->`);
+		} else $$renderer.push("<!--[-1-->");
+		$$renderer.push(`<!--]-->`);
+	});
+}
+// src/routes/+page.svelte
+function _page($$renderer) {
+	head("1uha8ag", $$renderer, ($$renderer) => {
+		$$renderer.title(($$renderer) => {
+			$$renderer.push(`<title>Creation Test 1 — Threlte Playground</title>`);
+		});
+		$$renderer.push(`<meta name="description" content="A SvelteKit and Threlte playground for creating 3D scenes with Three.js."/>`);
+	});
+	$$renderer.push(`<main><section class="intro"><p class="eyebrow">EXPERIMENT 01 · 3D PLAYGROUND</p> <h1>Creation Test 1</h1> <p class="description">A first look at building a little world with SvelteKit, Threlte and Three.js.</p></section> <section class="scene" aria-label="A rotating 3D planet">`);
+	Canvas($$renderer, {
+		children: ($$renderer) => {
+			PlanetScene($$renderer, {});
+		},
+		$$slots: { default: true }
+	});
+	$$renderer.push(`<!----> <p class="scene-caption">A small rotating planet, rendered in real time</p></section> <footer><span>Made with SvelteKit</span> <span>Three.js · Threlte</span></footer></main>`);
 }
 export { _page as default };
 
