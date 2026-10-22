@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@threlte/core": "^8.6.1",
+    "fastnoise-lite": "^1.1.1",
     "three": "^0.186.1"
   }
 }
