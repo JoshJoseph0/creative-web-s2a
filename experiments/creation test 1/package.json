@@ -1,0 +1,22 @@
+{
+  "name": "creation-test-1",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "^8.0.0",
+    "@sveltejs/kit": "^3.1.0",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "svelte": "^5.57.2",
+    "vite": "^8.3.5"
+  },
+  "dependencies": {
+    "@threlte/core": "^8.6.1",
+    "three": "^0.186.1"
+  }
+}

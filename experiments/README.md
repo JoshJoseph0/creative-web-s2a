@@ -12,3 +12,7 @@ Potential experiments:
 - Timeline, replay and comparison
 
 Keep each experiment in its own subfolder, with a short README explaining what was tested, how to run it and what was learned.
+
+## Experiments
+
+- [Creation Test 1](./creation%20test%201/README.md) — a SvelteKit starter using Three.js through Threlte.

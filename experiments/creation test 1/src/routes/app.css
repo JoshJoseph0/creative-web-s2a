@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+  font-family: 'Manrope', sans-serif;
+  color: #f4f6fb;
+  background: #101522;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-optical-sizing: auto;
+  font-weight: 400;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 50% 66%, rgb(48 79 130 / 24%), transparent 46%),
+    #101522;
+}
+
+main {
+  display: flex;
+  width: min(100% - 48px, 920px);
+  min-height: 100vh;
+  margin: 0 auto;
+  flex-direction: column;
+  justify-content: center;
+  padding: 72px 0 28px;
+}
+
+.intro {
+  text-align: center;
+}
+
+.eyebrow,
+footer,
+.scene-caption {
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.08em;
+}
+
+.eyebrow {
+  margin: 0 0 20px;
+  color: #87bfff;
+  font-size: 0.72rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2.6rem, 8vw, 5rem);
+  font-weight: 700;
+  letter-spacing: -0.075em;
+  line-height: 1;
+}
+
+.description {
+  max-width: 480px;
+  margin: 20px auto 0;
+  color: #adb7cb;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.scene {
+  position: relative;
+  width: 100%;
+  height: min(52vh, 440px);
+  min-height: 300px;
+  margin: 22px 0 0;
+}
+
+.scene canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
+
+.scene-caption {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  left: 0;
+  margin: 0;
+  color: #8590a6;
+  font-size: 0.64rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid rgb(255 255 255 / 10%);
+  padding-top: 18px;
+  color: #8590a6;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+}
+
+@media (max-width: 560px) {
+  main {
+    width: min(100% - 32px, 920px);
+    padding-top: 48px;
+  }
+
+  .description {
+    font-size: 0.92rem;
+  }
+
+  footer {
+    flex-direction: column;
+    align-items: center;
+  }
+}

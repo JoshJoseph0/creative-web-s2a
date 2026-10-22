@@ -1,0 +1,46 @@
+type Keys = unknown[];
+type CacheItem = {
+    promise: Promise<unknown>;
+    keys: Keys;
+};
+type Cache = CacheItem[];
+type CacheContext = {
+    items: Cache;
+    remember: <T>(callback: () => Promise<T>, keys: Keys) => Promise<T>;
+    clear: (keys: Keys) => void;
+};
+export declare const shallowEqualArrays: (arrA: unknown[], arrB: unknown[]) => boolean;
+/**
+ * ### `createCacheContext`
+ *
+ * Every Threlte application has its own cache. This prevents models from being
+ * shared between applications because e.g. THREE.Mesh objects cannot be mounted
+ * in multiple scenes.
+ */
+export declare const createCacheContext: () => CacheContext;
+/**
+ * ### `useCache`
+ *
+ * This hook is used to access the cache. It returns a `remember` function that
+ * can be used to cache a promise based on the provided keys. The `remember`
+ * function will return the cached promise when the keys match, so repeated
+ * calls share the same in-flight or resolved result.
+ *
+ * @example
+ * ```ts
+ * const { remember } = useCache()
+ *
+ * const asyncWritable = remember(async () => {
+ *  const loader = new GLTFLoader()
+ *  const { scene } = await loader.loadAsync('/path/to/model.glb')
+ *  return scene
+ * })
+ * ```
+ *
+ * The model will only be loaded once, even if `remember` is invoked multiple
+ * times with the same keys.
+ *
+ * The `clear` function can be used to clear the cache for a specific set of keys.
+ */
+export declare const useCache: () => CacheContext;
+export {};
