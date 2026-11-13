@@ -2,6 +2,10 @@
 	import { onMount } from 'svelte'
 	import { breedInfo, roster } from './roster.svelte.js'
 
+<<<<<<< Updated upstream
+=======
+	// this is what is in the form fields, and is bound to the input values
+>>>>>>> Stashed changes
 	let name = $state('')
 	let pet = $state('')
 	let breeds = $state([])
@@ -104,6 +108,7 @@
 
 	<button type="submit">Add pet <span aria-hidden="true">→</span></button>
 </form>
+<<<<<<< Updated upstream
 
 <style>
 	form {
@@ -173,3 +178,5 @@
 		transform: translateY(-1px);
 	}
 </style>
+=======
+>>>>>>> Stashed changes

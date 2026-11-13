@@ -1,11 +1,17 @@
 <script>
+<<<<<<< Updated upstream
 	import StudentForm from './Studentform.svelte'
 	import BreedInfo from './BreedInfo.svelte'
 	import Register from './register.svelte'
+=======
+	import StudentForm from './studentForm.svelte'
+	import RosterList from './RosterList.svelte'
+>>>>>>> Stashed changes
 </script>
 
 <main class="page">
 	<section class="content" aria-labelledby="page-title">
+<<<<<<< Updated upstream
 		<header class="page-header">
 			<div>
 				<h1 id="page-title">Pet Registration</h1>
@@ -153,3 +159,19 @@
 		}
 	}
 </style>
+=======
+		<header class="page-heading">
+			<h1 id="page-title">Student Pet List</h1>
+			<p class="intro">Add a student and their pet to the roster.</p>
+		</header>
+
+		<div class="workspace">
+			<section class="form-panel card" aria-labelledby="form-title">
+				<h2 id="form-title">Add to the roster</h2>
+				<StudentForm />
+			</section>
+			<RosterList />
+		</div>
+	</section>
+</main>
+>>>>>>> Stashed changes

@@ -1,4 +1,192 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&display=swap");
+@import url("https://unpkg.com/papercss@1.9.2/dist/paper.css") layer(csspaper);
+
+form:has(input:invalid) {
+  border-color: var(--danger);
+}
+
+/* Demo style */
 body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f6eee3;
+  opacity: 1;
+  background-size: 20px 20px;
+  background-image: repeating-linear-gradient(0deg, #e5decf, #e5decf 1px, #f6eee3 1px, #f6eee3);
+}
+
+.page {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 36px 24px;
+}
+
+.content {
+  width: min(100%, 1040px);
+  margin: 0 auto;
+}
+
+.page-heading {
+  margin-bottom: 24px;
+}
+
+.page-heading h1 {
+  margin: 0;
+  font-size: 36px;
+  line-height: 1.15;
+}
+
+.intro {
+  margin: 8px 0 0;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  align-items: start;
+  gap: 36px;
+}
+
+.card.form-panel {
+  box-sizing: border-box;
+  width: 320px;
+  max-width: 100%;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.form-panel h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+form {
+  display: grid;
+  gap: 4px;
+  margin: 16px 0 0;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+form label {
+  margin: 6px 0 0;
+  font-weight: 600;
+}
+
+form input {
+  min-height: 40px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 6px 10px;
+  font: inherit;
+}
+
+form input:focus-visible,
+form button:focus-visible {
+  outline: 3px solid #9bc8a2;
+  outline-offset: 2px;
+}
+
+form button {
+  min-height: 40px;
+  margin: 8px 0 0;
+  padding: 6px 12px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.entries {
+  min-width: 0;
+  padding-top: 20px;
+}
+
+.entries h2,
+.entries p {
   margin: 0;
   background: #fef6e4;
+}
+
+.entries-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.entries-heading h2 {
+  font-size: 26px;
+}
+
+.entry-count {
+  color: #657066;
+  font-size: 14px;
+}
+
+.column-headings,
+.entries li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+}
+
+.column-headings {
+  padding: 0 12px 8px;
+  border-bottom: 2px solid #41403e;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.entries .empty {
+  color: #657066;
+  margin-top: 16px;
+}
+
+.entries ul {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entries li {
+  padding: 7px 10px;
+  border-bottom: 1px solid #dce3da;
+}
+
+.handwriting {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-family: 'Caveat', cursive;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding: 28px 16px;
+  }
+
+  .page-heading {
+    margin-bottom: 24px;
+  }
+
+  .page-heading h1 {
+    font-size: 30px;
+  }
+
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .card.form-panel {
+    width: 100%;
+  }
 }
