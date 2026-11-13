@@ -2,7 +2,7 @@
 
 :root {
   font-family: 'Manrope', sans-serif;
-  color: #f4f6fb;
+  color: #172033;
   background: white;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -21,9 +21,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
-  background:
-    radial-gradient(ellipse at 50% 66%, rgb(48 79 130 / 24%), transparent 46%),
-    #101522;
+  background: #fff;
 }
 
 main {
@@ -49,7 +47,7 @@ footer,
 
 .eyebrow {
   margin: 0 0 20px;
-  color: #87bfff;
+  color: #245b92;
   font-size: 0.72rem;
 }
 
@@ -64,7 +62,7 @@ h1 {
 .description {
   max-width: 480px;
   margin: 20px auto 0;
-  color: #adb7cb;
+  color: #526078;
   font-size: 1rem;
   line-height: 1.7;
 }
@@ -90,7 +88,7 @@ h1 {
   bottom: 10px;
   left: 0;
   margin: 0;
-  color: #8590a6;
+  color: #606c80;
   font-size: 0.64rem;
   text-align: center;
   text-transform: uppercase;
@@ -100,9 +98,9 @@ footer {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  border-top: 1px solid rgb(255 255 255 / 10%);
+  border-top: 1px solid rgb(23 32 51 / 15%);
   padding-top: 18px;
-  color: #8590a6;
+  color: #606c80;
   font-size: 0.65rem;
   text-transform: uppercase;
 }
